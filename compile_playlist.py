@@ -3,13 +3,20 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Expanded sources
 SOURCES = [
-    "https://iptv-org.github.io/iptv/countries/eg.m3u",   # Egypt
-    "https://iptv-org.github.io/iptv/countries/sa.m3u",   # Saudi Arabia
-    "https://iptv-org.github.io/iptv/countries/ae.m3u",   # UAE
-    "https://iptv-org.github.io/iptv/regions/arab.m3u",   # Arab World
-    "https://iptv-org.github.io/iptv/categories/movies.m3u", # Movies
-    "https://iptv-org.github.io/iptv/categories/general.m3u" # General International
-    # Removed the full index.m3u to keep it slightly lighter, general has plenty
+    SOURCES = [
+    # --- Requested Specific Categories ---
+    "https://iptv-org.github.io/iptv/categories/documentary.m3u", # Nat Geo & Discovery
+    "https://iptv-org.github.io/iptv/categories/cooking.m3u",     # Food Network
+    "https://iptv-org.github.io/iptv/categories/news.m3u",        # Al Jazeera
+    "https://iptv-org.github.io/iptv/categories/movies.m3u",      # Movies
+    
+    # --- Regional & International ---
+    "https://iptv-org.github.io/iptv/countries/eg.m3u",           # Egypt
+    "https://iptv-org.github.io/iptv/countries/sa.m3u",           # Saudi Arabia
+    "https://iptv-org.github.io/iptv/countries/ae.m3u",           # UAE
+    "https://iptv-org.github.io/iptv/regions/arab.m3u",           # Arab World
+    "https://iptv-org.github.io/iptv/languages/ara.m3u"           # Arabic
+]
 ]
 
 # Some servers block requests that don't look like a real player
