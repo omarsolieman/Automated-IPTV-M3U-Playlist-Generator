@@ -3,20 +3,25 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Expanded sources
 SOURCES = [
-    SOURCES = [
-    # --- Requested Specific Categories ---
-    "https://iptv-org.github.io/iptv/categories/documentary.m3u", # Nat Geo & Discovery
+   # --- Requested Specific Brands (Documentary, Cooking, News) ---
+    "https://iptv-org.github.io/iptv/categories/documentary.m3u", # Nat Geo, Discovery
     "https://iptv-org.github.io/iptv/categories/cooking.m3u",     # Food Network
-    "https://iptv-org.github.io/iptv/categories/news.m3u",        # Al Jazeera
+    "https://iptv-org.github.io/iptv/categories/news.m3u",        # Al Jazeera, CNN, etc.
     "https://iptv-org.github.io/iptv/categories/movies.m3u",      # Movies
+    "https://iptv-org.github.io/iptv/categories/entertainment.m3u", # General Entertainment
     
-    # --- Regional & International ---
+    # --- Malay & Asian Content ---
+    "https://iptv-org.github.io/iptv/countries/my.m3u",           # Malaysia
+    "https://iptv-org.github.io/iptv/languages/msa.m3u",          # Malay Language
+    "https://iptv-org.github.io/iptv/regions/asia.m3u",           # Broad Asia Region
+    "https://iptv-org.github.io/iptv/countries/id.m3u",           # Indonesia
+    "https://iptv-org.github.io/iptv/countries/sg.m3u",           # Singapore    
+    # --- Middle East & Arab Content ---
     "https://iptv-org.github.io/iptv/countries/eg.m3u",           # Egypt
     "https://iptv-org.github.io/iptv/countries/sa.m3u",           # Saudi Arabia
     "https://iptv-org.github.io/iptv/countries/ae.m3u",           # UAE
     "https://iptv-org.github.io/iptv/regions/arab.m3u",           # Arab World
     "https://iptv-org.github.io/iptv/languages/ara.m3u"           # Arabic
-]
 ]
 
 # Some servers block requests that don't look like a real player
