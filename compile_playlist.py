@@ -1,46 +1,34 @@
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# Expanded sources for Asian, Malay, Middle Eastern, and Specific Brands
 SOURCES = [
-    # --- Requested Specific Brands (Documentary, Cooking, News) ---
-    "https://iptv-org.github.io/iptv/categories/documentary.m3u", # Nat Geo, Discovery
-    "https://iptv-org.github.io/iptv/categories/cooking.m3u",     # Food Network
-    "https://iptv-org.github.io/iptv/categories/news.m3u",        # Al Jazeera, CNN, etc.
-    "https://iptv-org.github.io/iptv/categories/movies.m3u",      # Movies
-    "https://iptv-org.github.io/iptv/categories/entertainment.m3u", # General Entertainment
-    
-    # --- Malay & Asian Content ---
-    "https://iptv-org.github.io/iptv/countries/my.m3u",           # Malaysia
-    "https://iptv-org.github.io/iptv/languages/msa.m3u",          # Malay Language
-    "https://iptv-org.github.io/iptv/regions/asia.m3u",           # Broad Asia Region
-    "https://iptv-org.github.io/iptv/countries/id.m3u",           # Indonesia
-    "https://iptv-org.github.io/iptv/countries/sg.m3u",           # Singapore
-    "https://iptv-org.github.io/iptv/countries/in.m3u",           # India (Huge selection)
-    
-    # --- Middle East & Arab Content ---
-    "https://iptv-org.github.io/iptv/countries/eg.m3u",           # Egypt
-    "https://iptv-org.github.io/iptv/countries/sa.m3u",           # Saudi Arabia
-    "https://iptv-org.github.io/iptv/countries/ae.m3u",           # UAE
-    "https://iptv-org.github.io/iptv/regions/arab.m3u",           # Arab World
-    "https://iptv-org.github.io/iptv/languages/ara.m3u"           # Arabic
+    "https://iptv-org.github.io/iptv/categories/documentary.m3u",
+    "https://iptv-org.github.io/iptv/categories/cooking.m3u",
+    "https://iptv-org.github.io/iptv/categories/news.m3u",
+    "https://iptv-org.github.io/iptv/categories/movies.m3u",
+    "https://iptv-org.github.io/iptv/categories/entertainment.m3u",
+    "https://iptv-org.github.io/iptv/countries/my.m3u",
+    "https://iptv-org.github.io/iptv/languages/msa.m3u",
+    "https://iptv-org.github.io/iptv/regions/asia.m3u",
+    "https://iptv-org.github.io/iptv/countries/id.m3u",
+    "https://iptv-org.github.io/iptv/countries/sg.m3u",
+    "https://iptv-org.github.io/iptv/countries/eg.m3u",
+    "https://iptv-org.github.io/iptv/countries/sa.m3u",
+    "https://iptv-org.github.io/iptv/countries/ae.m3u",
+    "https://iptv-org.github.io/iptv/regions/arab.m3u",
+    "https://iptv-org.github.io/iptv/languages/ara.m3u"
 ]
 
-# Some servers block requests that don't look like a real player
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 VLC/3.0.20 LibVLC/3.0.20"
 }
 
 def check_stream(stream_info):
-    """Tests if a stream URL is alive without downloading the whole video."""
     extinf, url = stream_info
     try:
-        # We use a short timeout (4s) so we don't hang on dead links
         response = requests.head(url, headers=HEADERS, timeout=4, allow_redirects=True)
-        # Some servers don't support HEAD, try a tiny GET if HEAD fails
         if response.status_code == 405:
             response = requests.get(url, headers=HEADERS, timeout=4, stream=True)
-            
         if response.status_code == 200:
             return (extinf, url)
     except Exception:
@@ -77,7 +65,6 @@ def build_playlist():
     
     working_streams = []
     
-    # Test 20 streams at the same time to speed it up
     with ThreadPoolExecutor(max_workers=20) as executor:
         futures = [executor.submit(check_stream, stream) for stream in stream_queue]
         
@@ -88,7 +75,6 @@ def build_playlist():
             if i % 100 == 0:
                 print(f"Checked {i}/{len(stream_queue)}... Found {len(working_streams)} working.")
 
-    # Save only the working streams
     output_lines = ["#EXTM3U"]
     for extinf, url in working_streams:
         output_lines.append(extinf)
