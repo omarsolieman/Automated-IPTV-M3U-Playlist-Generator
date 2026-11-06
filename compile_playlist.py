@@ -1,9 +1,9 @@
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# Expanded sources
+# Expanded sources for Asian, Malay, Middle Eastern, and Specific Brands
 SOURCES = [
-   # --- Requested Specific Brands (Documentary, Cooking, News) ---
+    # --- Requested Specific Brands (Documentary, Cooking, News) ---
     "https://iptv-org.github.io/iptv/categories/documentary.m3u", # Nat Geo, Discovery
     "https://iptv-org.github.io/iptv/categories/cooking.m3u",     # Food Network
     "https://iptv-org.github.io/iptv/categories/news.m3u",        # Al Jazeera, CNN, etc.
@@ -15,7 +15,9 @@ SOURCES = [
     "https://iptv-org.github.io/iptv/languages/msa.m3u",          # Malay Language
     "https://iptv-org.github.io/iptv/regions/asia.m3u",           # Broad Asia Region
     "https://iptv-org.github.io/iptv/countries/id.m3u",           # Indonesia
-    "https://iptv-org.github.io/iptv/countries/sg.m3u",           # Singapore    
+    "https://iptv-org.github.io/iptv/countries/sg.m3u",           # Singapore
+    "https://iptv-org.github.io/iptv/countries/in.m3u",           # India (Huge selection)
+    
     # --- Middle East & Arab Content ---
     "https://iptv-org.github.io/iptv/countries/eg.m3u",           # Egypt
     "https://iptv-org.github.io/iptv/countries/sa.m3u",           # Saudi Arabia
@@ -33,11 +35,11 @@ def check_stream(stream_info):
     """Tests if a stream URL is alive without downloading the whole video."""
     extinf, url = stream_info
     try:
-        # We use a short timeout (3s) so we don't hang on dead links
-        response = requests.head(url, headers=HEADERS, timeout=3, allow_redirects=True)
+        # We use a short timeout (4s) so we don't hang on dead links
+        response = requests.head(url, headers=HEADERS, timeout=4, allow_redirects=True)
         # Some servers don't support HEAD, try a tiny GET if HEAD fails
         if response.status_code == 405:
-            response = requests.get(url, headers=HEADERS, timeout=3, stream=True)
+            response = requests.get(url, headers=HEADERS, timeout=4, stream=True)
             
         if response.status_code == 200:
             return (extinf, url)
