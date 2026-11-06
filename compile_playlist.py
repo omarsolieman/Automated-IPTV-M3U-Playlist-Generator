@@ -1,10 +1,20 @@
 import requests
 
-# The specific sources you requested
+# Expanded list of specific sources for Egypt, Saudi, UAE, Arabic, and Global lists
 SOURCES = [
-    "https://iptv-org.github.io/iptv/regions/arab.m3u",
-    "https://iptv-org.github.io/iptv/countries/my.m3u",
-    "https://iptv-org.github.io/iptv/categories/movies.m3u"
+    # --- Middle East & North Africa (Specific Countries) ---
+    "https://iptv-org.github.io/iptv/countries/eg.m3u",  # Egypt (~65-72 channels)
+    "https://iptv-org.github.io/iptv/countries/sa.m3u",  # Saudi Arabia (~24-43 channels)
+    "https://iptv-org.github.io/iptv/countries/ae.m3u",  # UAE (~71-81 channels)
+    
+    # --- Regional & Language Aggregators ---
+    "https://iptv-org.github.io/iptv/regions/arab.m3u",   # Arab World (~315 channels)
+    "https://iptv-org.github.io/iptv/languages/ara.m3u",  # Arabic Language (~322-345 channels)
+    
+    # --- International & Global Categories ---
+    "https://iptv-org.github.io/iptv/categories/general.m3u", # General International (~1397 channels)
+    "https://iptv-org.github.io/iptv/categories/movies.m3u",  # Movies (24/7)
+    "https://iptv-org.github.io/iptv/index.m3u"               # The FULL Global Index (10,000+ channels)
 ]
 
 def build_playlist():
@@ -15,7 +25,8 @@ def build_playlist():
     for url in SOURCES:
         try:
             print(f"Fetching: {url}")
-            response = requests.get(url, timeout=20)
+            # Increased timeout for the massive global list
+            response = requests.get(url, timeout=30)
             response.raise_for_status()
             lines = response.text.splitlines()
             
